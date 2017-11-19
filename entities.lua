@@ -87,7 +87,6 @@ end
 
 function entities:setY(value)
   self.yposition = value
-  return self.yposition
 end
 
 function entities:getID()
@@ -107,5 +106,5 @@ function entities:draw()              -- draw function to draw the entity
   local xoffset, yoffset = self:getOffset()
   local img = self:getImg()
   love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.draw(img, x, y, 0, 0.05, 0.05, xoffset, yoffset) -- draw the entity
+  love.graphics.draw(img, x, y, 0, 0.1, 0.1, xoffset, yoffset) -- draw the entity
 end

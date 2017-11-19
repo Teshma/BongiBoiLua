@@ -1,3 +1,4 @@
+require "world"
 -- player file
 player = bodies:new{    --initialisation of the player class
   name = "Bongi Boi",
@@ -15,7 +16,8 @@ player = bodies:new{    --initialisation of the player class
   imgR = love.graphics.newImage("assets/idle/idleR.png"),
   imgL = love.graphics.newImage("assets/idle/idleL.png"),
   imgRunR1 = love.graphics.newImage("assets/running/running2.png"),
-  imgRunL1 = love.graphics.newImage("assets/running/running4.png")
+  imgRunL1 = love.graphics.newImage("assets/running/running4.png"),
+  imgJump = love.graphics.newImage("assets/jump/jump.png")
 }
 
 function player:imgUpdate()
@@ -24,6 +26,9 @@ function player:imgUpdate()
     end
     if self.state == "left" then
         self.img = self.imgRunL1
+    end
+    if self.state == "up" then
+        self.img = self.imgJump
     end
     if self.state == "still" then
         if self.wasFacing == "right" then
@@ -65,6 +70,14 @@ function player:move(dt)
             self:setY(deltaY)
             self.yvelocity = self.yvelocity - self.gravity *dt
         end
+        player:falling(world.ground.y)
+    end
+end
+
+function player:falling(platform_y)
+    if self.yPos > platform_y then
+        self.yvelocity = 0
+        self.setY(platform_y)
     end
 end
 
