@@ -13,6 +13,7 @@ player = bodies:new{    --initialisation of the player class
   yvelocity = 0,
   wasFacing = "right",
   jumpheight = -500,
+  standing = true,
   imgR = love.graphics.newImage("assets/idle/idleR.png"),
   imgL = love.graphics.newImage("assets/idle/idleL.png"),
   imgRunR1 = love.graphics.newImage("assets/running/running2.png"),
@@ -70,15 +71,31 @@ function player:move(dt)
             self:setY(deltaY)
             self.yvelocity = self.yvelocity - self.gravity *dt
         end
-        player:falling(world.ground.y)
+        player:stopfalling(world.ground.y)
     end
 end
 
-function player:falling(platform_y)
-    if self.yPos > platform_y then
+function player:stopfalling(platform_y)
+    local y = self:getY()
+    if y > platform_y then
         self.yvelocity = 0
-        self.setY(platform_y)
+        self:setY(platform_y)
     end
+end
+
+function player:falling(object)
+    local x,y = self:getPos()
+    if x > object.x and y > object.y then
+        standing = false
+        self:fall()
+    end
+end
+
+function player:fall()
+
+function player:camera() -- control the player camera
+  local x,y = self:getPos()
+  camera:setPosition(x - love.graphics.getWidth() / 2, y - love.graphics.getHeight() / 2) -- set player camera position to top left of screen
 end
 
 function player:drawhealth() -- draw player health
@@ -104,6 +121,7 @@ function player:drawhealth() -- draw player health
 end
 
 function player:update(dt)
+    self:camera()
     self:move(dt)
     self:imgUpdate()
 end
