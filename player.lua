@@ -14,6 +14,8 @@ player = bodies:new{    --initialisation of the player class
   wasFacing = "right",
   jumpheight = -500,
   standing = true,
+  canshoot = true,
+  count = 0.3,
   imgR = love.graphics.newImage("assets/idle/idleR.png"),
   imgL = love.graphics.newImage("assets/idle/idleL.png"),
   imgRunR1 = love.graphics.newImage("assets/running/running2.png"),
@@ -40,11 +42,11 @@ function player:imgUpdate()
         end
     end
 end
-
 function player:move(dt)
     local x, y = self:getPos()
     local v = self:getVelocity()
     local down = love.keyboard.isDown
+
     if self.input == true then
         if down("d") and self.canwalk.right == true then
             self.state = "right"
@@ -60,10 +62,19 @@ function player:move(dt)
             local deltaX = x - v*dt
             self:setX(deltaX)
         end
-        if down("space") and self.canwalk.up == true then
+        if down("w") and self.canwalk.up == true then
             if self.yvelocity == 0 then
                 self.yvelocity = self.jumpheight
             end
+        end
+        self.count = math.max(0, self.count - dt)
+        if down("space") and self.count == 0 then
+            if self.wasFacing == "right" then
+                projectile:gen(x, y, 1000)
+            elseif self.wasFacing == "left" then
+                projectile:gen(x, y, -1000)
+            end
+            self.count = 0.7
         end
         if self.yvelocity ~= 0 then
             self.state = "up"

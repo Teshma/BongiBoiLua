@@ -5,13 +5,16 @@ function love.load()
     require "camera"
     require "objects"
     require "towers"
+    require "projectiles"
     bg_image = love.graphics.newImage("assets/Level.jpg")
     bg_image:setWrap("repeat", "repeat")
     bg_quad = love.graphics.newQuad(0, 0, 200000, 2000, bg_image:getWidth(), bg_image:getHeight())
 
     player:setX(5000)
     player:setY(550)
-    towers:gen(5300, 550, 50)
+    for i=1,20 do
+        towers:gen(5300+(500*i), 550, 50)
+    end
 end
 
 function love.draw(dt)
@@ -22,6 +25,7 @@ function love.draw(dt)
     player:draw()
     player:drawhealth()
     towers:draw()
+    projectile:draw()
     --objects:draw()
     camera:unset()
 end
@@ -32,5 +36,6 @@ function love.update(dt)
     end
     player:update(dt)
     towers:jump(dt)
+    projectile:update(dt)
     --objects:update(dt)
 end
