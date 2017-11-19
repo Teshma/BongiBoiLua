@@ -10,10 +10,10 @@ function love.load()
     bg_image:setWrap("repeat", "repeat")
     bg_quad = love.graphics.newQuad(0, 0, 200000, 2000, bg_image:getWidth(), bg_image:getHeight())
 
-    player:setX(5000)
+    player:setX(50000)
     player:setY(550)
-    for i=1,20 do
-        towers:gen(5300+(500*i), 550, 50)
+    for i=1,200 do
+        towers:gen(53000+(500*i), 550, 50)
     end
 end
 
