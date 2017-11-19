@@ -1,0 +1,1 @@
+keyDown = love.keyboard.isDown
