@@ -3,6 +3,7 @@ function love.load()
     require "bodies"
     require "player"
     require "camera"
+    require "objects"
     bg_image = love.graphics.newImage("assets/Level.jpg")
     bg_image:setWrap("repeat", "repeat")
     bg_quad = love.graphics.newQuad(0, 0, 20000, 2000, bg_image:getWidth(), bg_image:getHeight())
@@ -18,6 +19,7 @@ function love.draw(dt)
     love.graphics.draw(bg_image, bg_quad, 0, 0, 0, 2, 2)
     player:draw()
     player:drawhealth()
+    objects:draw()
     camera:unset()
 end
 
@@ -26,4 +28,5 @@ function love.update(dt)
         love.event.quit()
     end
     player:update(dt)
+    --objects:update(dt)
 end

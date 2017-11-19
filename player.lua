@@ -76,22 +76,27 @@ function player:move(dt)
 end
 
 function player:stopfalling(platform_y)
-    local y = self:getY()
+    local x,y = self:getPos()
     if y > platform_y then
         self.yvelocity = 0
         self:setY(platform_y)
     end
 end
 
-function player:falling(object)
+function player:falling(objectx, objectw, objecty, dt)
     local x,y = self:getPos()
-    if x > object.x and y > object.y then
+    if x > objectx + objectw and y > objecty then
         standing = false
-        self:fall()
+        self:fall(dt)
     end
 end
 
-function player:fall()
+function player:fall(dt)
+    self.yvelocity = self.gravity
+    local deltaY = self.getY() - self.yvelocity * dt
+    self:setY(deltaY)
+    self.yvelocity = self.yvelocity - self.gravity * dt
+end
 
 function player:camera() -- control the player camera
   local x,y = self:getPos()
