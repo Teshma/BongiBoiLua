@@ -5,8 +5,8 @@ player = bodies:new{    --initialisation of the player class
   health = 500,
   maxHealth = 500,
   velocity = 250,
-  height = 50,
-  width = 50,
+  height = 300,
+  width = 150,
   life = true,
   input = true,
   xvelocity = 500,
@@ -14,13 +14,14 @@ player = bodies:new{    --initialisation of the player class
   wasFacing = "right",
   jumpheight = -500,
   standing = true,
-  canshoot = true,
   count = 0.3,
+  hit = false,
   imgR = love.graphics.newImage("assets/idle/idleR.png"),
   imgL = love.graphics.newImage("assets/idle/idleL.png"),
   imgRunR1 = love.graphics.newImage("assets/running/running2.png"),
   imgRunL1 = love.graphics.newImage("assets/running/running4.png"),
-  imgJump = love.graphics.newImage("assets/jump/jump.png")
+  imgJump = love.graphics.newImage("assets/jump/jump.png"),
+  imgDUCK = love.graphics.newImage("assets/mallard-duck_thumb.JPG")
 }
 
 function player:imgUpdate()
@@ -32,6 +33,9 @@ function player:imgUpdate()
     end
     if self.state == "up" then
         self.img = self.imgJump
+    end
+    if self.state == "down" then
+        self.img = self.imgDUCK
     end
     if self.state == "still" then
         if self.wasFacing == "right" then
@@ -67,12 +71,15 @@ function player:move(dt)
                 self.yvelocity = self.jumpheight
             end
         end
+        if down("s") then
+            self.state = "down"
+        end
         self.count = math.max(0, self.count - dt)
         if down("space") and self.count == 0 then
             if self.wasFacing == "right" then
-                projectile:gen(x, y, 1000)
+                projectile:gen(x, y+100, 1000)
             elseif self.wasFacing == "left" then
-                projectile:gen(x, y, -1000)
+                projectile:gen(x, y+100, -1000)
             end
             self.count = 0.7
         end
@@ -125,7 +132,6 @@ function player:drawhealth() -- draw player health
   if healthratio <= 0 then
     healthratio = 0
   end
-
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.print("Player: " .. name .. "  HP: ".. health, x - width/2 + 5, y - height/2 + 10)
 
@@ -136,8 +142,19 @@ function player:drawhealth() -- draw player health
   love.graphics.rectangle("fill", x - width/2 + 3, y - height/2 + 40, 200*healthratio, 10)
 end
 
+-- function player:collide()
+--     local i,v
+--     for i,v in pairs(towers.bodies) do
+--         if checkCollision(self.x, self.y, 150, 300, v.x, v.y+(v.h/2), v.w, v.h) then
+--             self.health = self.health - 50
+--             self.hit = true
+--         end
+--     end
+-- end
+
 function player:update(dt)
     self:camera()
     self:move(dt)
     self:imgUpdate()
+    --self:collide()
 end

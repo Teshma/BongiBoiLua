@@ -13,7 +13,7 @@ function love.load()
     player:setX(50000)
     player:setY(550)
     for i=1,200 do
-        towers:gen(53000+(500*i), 550, 50)
+        towers:gen(53000+(1500*i), 550)
     end
 end
 

@@ -11,7 +11,8 @@ entities = {
     xOffset = nil,
     yOffset = nil,
     img = nil,
-    gravity = -500
+    gravity = -500,
+    hit = nil
 }
 
 function entities:new(o) -- function to create classes to inherit entities functions
@@ -105,6 +106,11 @@ function entities:draw()              -- draw function to draw the entity
   local w, h = self:getDimensions()
   local xoffset, yoffset = self:getOffset()
   local img = self:getImg()
-  love.graphics.setColor(255, 255, 255, 255)
-  love.graphics.draw(img, x, y, 0, 0.1, 0.1, xoffset, yoffset) -- draw the entity
+  if self.hit then
+      love.graphics.setColor(255, 0, 0, 0)
+      love.graphics.draw(img, x, y, 0, 0.1, 0.1, xoffset, yoffset) -- draw the entity
+  else
+      love.graphics.setColor(255, 255, 255, 255)
+      love.graphics.draw(img, x, y, 0, 0.1, 0.1, xoffset, yoffset) -- draw the entity
+    end
 end
