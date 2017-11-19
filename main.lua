@@ -15,5 +15,5 @@ function love.update(dt)
     if love.keyboard.isDown("escape") then
         love.event.quit()
     end
-    player:update()
+    player:update(dt)
 end

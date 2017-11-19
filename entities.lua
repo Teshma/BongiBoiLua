@@ -5,11 +5,13 @@ entities = {
     yPos = nil,
     width = nil,
     height = nil,
-    velocity = nil,
+    xvelocity = nil,
+    yvelocity = nil,
     state = "still",
     xOffset = nil,
     yOffset = nil,
-    img = nil
+    img = nil,
+    gravity = -500
 }
 
 function entities:new(o) -- function to create classes to inherit entities functions
@@ -60,7 +62,7 @@ function entities:getImg()
 end
 
 function entities:getVelocity()
-    return self.velocity
+    return self.xvelocity
 end
 
 function entities:setName(name)

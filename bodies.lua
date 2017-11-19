@@ -8,6 +8,7 @@ bodies = entities:new{
     },
     life = nil,
     maxHealth = nil,
+    jumpheight = nil,
     wasFacing = nil
 }
 
